@@ -13,8 +13,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "My Portfolio",
-  description: "Personal portfolio website",
+  title: "Elios Cama",
+  description: "Personal portfolio of Elios Cama",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
