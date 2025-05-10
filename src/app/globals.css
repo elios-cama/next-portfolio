@@ -32,3 +32,12 @@ a {
   color: inherit;
   text-decoration: none;
 }
+
+/* Prevent image dragging across the site */
+img {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}
