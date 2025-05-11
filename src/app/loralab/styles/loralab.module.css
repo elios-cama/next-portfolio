@@ -1,0 +1,19 @@
+.loralabContainer {
+  position: relative;
+  height: 100vh;
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow-y: scroll !important;
+  overflow-x: hidden;
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.contentContainer {
+  flex: 1;
+  padding: 1.5rem;
+  padding-bottom: 6rem;
+  overflow-y: visible;
+} 

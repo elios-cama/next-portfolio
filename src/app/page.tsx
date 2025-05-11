@@ -61,15 +61,27 @@ export default function Home() {
 
         {/* Image 4 - LinkedIn */}
         <Link href="https://www.linkedin.com/in/elios-cama/" target="_blank" rel="noopener noreferrer" className="absolute right-[4%] top-[35%] group z-10">
-          <div className="transition-transform duration-300 group-hover:scale-110 transform rotate-[6deg]">
-            <Image
-              src="/images/elios.png"
-              alt="Elios"
-              width={125}
-              height={125}
-              className="w-[105px] h-[105px] sm:w-[125px] sm:h-[125px] object-contain"
-              priority
-            />
+          <div className="transition-transform duration-300 group-hover:scale-110 transform rotate-[6deg] relative">
+            <div className="relative">
+              {/* Regular Elios (shown by default) */}
+              <Image
+                src="/images/elios.png"
+                alt="Elios"
+                width={125}
+                height={125}
+                className="w-[105px] h-[105px] sm:w-[125px] sm:h-[125px] object-contain transition-opacity duration-300 group-hover:opacity-0"
+                priority
+              />
+              {/* LinkedIn Elios (shown on hover) */}
+              <Image
+                src="/images/elios_linkedin.png"
+                alt="Elios LinkedIn"
+                width={125}
+                height={125}
+                className="w-[105px] h-[105px] sm:w-[125px] sm:h-[125px] object-contain absolute top-0 left-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+                priority
+              />
+            </div>
             <span className="absolute top-0 right-2 text-xs font-mono">04</span>
           </div>
         </Link>
@@ -102,7 +114,7 @@ export default function Home() {
         </Link>
 
         {/* Image 6 - Brain */}
-        <Link href="/ideas" className="absolute right-[5%] bottom-[8%] group z-10">
+        <Link href="/inspirations" className="absolute right-[5%] bottom-[8%] group z-10">
           <div className="transition-transform duration-300 group-hover:scale-110 transform rotate-[5deg]">
             <Image
               src="/images/brain.png"
@@ -127,7 +139,7 @@ export default function Home() {
         <div>
           <a href="https://www.linkedin.com/in/elios-cama/" target="_blank" rel="noopener noreferrer" className="hover:underline">(04) linkedin</a> {" "}
           <Link href="/backpack" className="hover:underline">(05) backpack</Link> {" "}
-          <Link href="/ideas" className="hover:underline">(06) ideas</Link>
+          <Link href="/inspirations" className="hover:underline">(06) inspirations</Link>
         </div>
       </div>
     </main>
