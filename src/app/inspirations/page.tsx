@@ -2,34 +2,13 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import { SUPABASE_URL } from "@/constants";
+import { AnimatePresence } from "framer-motion";
 
-// Sample inspirations data with Supabase URLs
-const inspirations = [
-  {
-    id: 1,
-    title: "gawx",
-    image: `${SUPABASE_URL}/images/inspirations/logo/gawx_logo.png`,
-    contentImage: `${SUPABASE_URL}/images/inspirations/content/gawx_content_1.webp`,
-    description: "Creative digital content with a focus on clean visual aesthetics."
-  },
-  {
-    id: 2,
-    title: "severance",
-    image: `${SUPABASE_URL}/images/inspirations/logo/severance_logo.png`,
-    contentImage: `${SUPABASE_URL}/images/inspirations/content/severance_content_1.webp`, 
-    description: "Minimalist design inspired by the show's stark visual contrasts and deliberate compositions."
-  },
-  {
-    id: 3,
-    title: "untitled.stream",
-    image: `${SUPABASE_URL}/images/inspirations/logo/untitled_logo.png`,
-    contentImage: `${SUPABASE_URL}/images/inspirations/content/untitled_content_1.png`,
-    description: "A platform for unreleased music with a simple, distraction-free interface."
-  }
-];
+// Import components and data
+import InspirationCard from "./components/InspirationCard";
+import InspirationModal from "./components/InspirationModal";
+import { inspirations } from "./data";
+import { InspirationItem } from "./types";
 
 export default function Inspirations() {
   const [selectedCard, setSelectedCard] = useState<number | null>(null);
@@ -42,6 +21,10 @@ export default function Inspirations() {
     setSelectedCard(null);
   };
 
+  const selectedInspiration = selectedCard !== null 
+    ? inspirations.find(i => i.id === selectedCard) 
+    : null;
+
   return (
     <main className="relative min-h-screen w-screen bg-white p-8">
       {/* Title in brackets at top left */}
@@ -51,80 +34,24 @@ export default function Inspirations() {
       
       {/* Grid of inspiration cards */}
       <div className="flex items-center justify-center min-h-screen">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
           {inspirations.map((inspiration) => (
-            <motion.div
+            <InspirationCard
               key={inspiration.id}
-              className="relative cursor-pointer"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => handleCardClick(inspiration.id)}
-            >
-              <div className="rounded-xl overflow-hidden w-[160px] h-[160px] shadow-sm bg-white flex items-center justify-center">
-                <Image
-                  src={inspiration.image}
-                  alt={inspiration.title}
-                  width={140}
-                  height={140}
-                  className="object-contain"
-                />
-              </div>
-              <p className="mt-2 text-xs text-center font-mono text-gray-600">{inspiration.title}</p>
-            </motion.div>
+              inspiration={inspiration}
+              onClick={handleCardClick}
+            />
           ))}
         </div>
       </div>
       
       {/* Expandable dialog */}
       <AnimatePresence>
-        {selectedCard !== null && (
-          <>
-            {/* Overlay */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-white bg-opacity-80 backdrop-blur-sm z-40"
-              onClick={handleClose}
-            />
-            
-            {/* Dialog */}
-            <motion.div
-              layoutId={`card-${selectedCard}`}
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: 20, opacity: 0 }}
-              className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl p-6 z-50 w-[90%] max-w-lg shadow-xl"
-            >
-              <button 
-                onClick={handleClose}
-                className="absolute top-4 right-4 text-gray-500 hover:text-black"
-              >
-                ✕
-              </button>
-              
-              {/* Content */}
-              {inspirations.find(i => i.id === selectedCard) && (
-                <>
-                  <div className="flex flex-col items-center">
-                    <div className="w-full h-auto rounded-xl overflow-hidden mb-6">
-                      <Image
-                        src={inspirations.find(i => i.id === selectedCard)!.contentImage}
-                        alt={inspirations.find(i => i.id === selectedCard)!.title}
-                        width={800}
-                        height={500}
-                        className="object-contain w-full"
-                      />
-                    </div>
-                    <h2 className="text-xl font-mono mb-4">{inspirations.find(i => i.id === selectedCard)!.title}</h2>
-                    <p className="text-gray-600 text-center">
-                      {inspirations.find(i => i.id === selectedCard)!.description}
-                    </p>
-                  </div>
-                </>
-              )}
-            </motion.div>
-          </>
+        {selectedInspiration && (
+          <InspirationModal 
+            inspiration={selectedInspiration} 
+            onClose={handleClose} 
+          />
         )}
       </AnimatePresence>
       
