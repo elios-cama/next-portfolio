@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./styles/loralab.module.css";
+import { SUPABASE_URL } from "@/constants";
 
 interface AgentResponse {
   response: string;
@@ -35,7 +36,7 @@ export default function Loralab() {
           "Users can train custom AI models from their own images, generate high-quality visuals, and transform static images into videos with motion effects.",
           "The platform features a clean, modern interface with intuitive workflows for training and content generation."
         ],
-        images: ["/images/loralab/screenshot1.png"]
+        images: [`${SUPABASE_URL}/images/loralab/screenshot1.png`]
       }
     },
     { 
@@ -53,7 +54,7 @@ export default function Loralab() {
           "Designed and built a credit-based system for metering platform usage with flexible payment options across fiat and cryptocurrency.",
           "Created a comprehensive API for developers, enabling seamless integration of AI-generated content into applications."
         ],
-        images: ["/images/loralab/screenshot2.png"]
+        images: [`${SUPABASE_URL}/images/loralab/screenshot2.png`]
       }
     },
     { 
@@ -70,7 +71,7 @@ export default function Loralab() {
           "Strong user retention with 40% of users returning weekly for new content generation.",
           "Processed transactions in both fiat (via Stripe) and cryptocurrency (via MultiversX and Solana wallets)."
         ],
-        images: ["/images/loralab/screenshot3.png"]
+        images: [`${SUPABASE_URL}/images/loralab/screenshot3.png`]
       }
     },
     { 
@@ -90,8 +91,8 @@ export default function Loralab() {
           "Robust API: Comprehensive endpoints for developers with authentication and usage tracking."
         ],
         images: [
-          "/images/loralab/screenshot1.png",
-          "/images/loralab/screenshot2.png"
+          `${SUPABASE_URL}/images/loralab/screenshot1.png`,
+          `${SUPABASE_URL}/images/loralab/screenshot2.png`
         ]
       }
     },
@@ -109,9 +110,9 @@ export default function Loralab() {
           "Wallet connection interfaces support both traditional payment methods and crypto transactions."
         ],
         images: [
-          "/images/loralab/screenshot1.png",
-          "/images/loralab/screenshot2.png",
-          "/images/loralab/screenshot3.png"
+          `${SUPABASE_URL}/images/loralab/screenshot1.png`,
+          `${SUPABASE_URL}/images/loralab/screenshot2.png`,
+          `${SUPABASE_URL}/images/loralab/screenshot3.png`
         ]
       }
     }
@@ -126,7 +127,7 @@ export default function Loralab() {
       setAgentError(null);
       setIsGenerating(true);
       
-      const response = await fetch('http://localhost:8000/api/chat', {
+      const response = await fetch('https://web-production-4c62.up.railway.app/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -153,7 +154,7 @@ export default function Loralab() {
       setGeneratedContent({
         title: "LoraLab AI Assistant",
         text: data.response.split('\n\n').filter(paragraph => paragraph.trim() !== ''),
-        images: ["/images/loralab/screenshot1.png"]
+        images: [`${SUPABASE_URL}/images/loralab/screenshot1.png`]
       });
       
     } catch (error) {
@@ -222,7 +223,7 @@ export default function Loralab() {
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center">
               <Image 
-                src="/images/loralab/logo.png" 
+                src={`${SUPABASE_URL}/images/loralab/logo.png`}
                 alt="LoraLab Logo" 
                 width={24} 
                 height={24} 

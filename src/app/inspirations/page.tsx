@@ -4,28 +4,29 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { SUPABASE_URL } from "@/constants";
 
-// Sample inspirations data - replace the images with your own later
+// Sample inspirations data with Supabase URLs
 const inspirations = [
   {
     id: 1,
     title: "gawx",
-    image: "/images/inspirations/gawx_logo.png",
-    contentImage: "/images/inspirations/gawx_1.webp",
+    image: `${SUPABASE_URL}/images/inspirations/logo/gawx_logo.png`,
+    contentImage: `${SUPABASE_URL}/images/inspirations/content/gawx_content_1.webp`,
     description: "Creative digital content with a focus on clean visual aesthetics."
   },
   {
     id: 2,
     title: "severance",
-    image: "/images/inspirations/severance_logo.png",
-    contentImage: "/images/inspirations/severance_1.webp", 
+    image: `${SUPABASE_URL}/images/inspirations/logo/severance_logo.png`,
+    contentImage: `${SUPABASE_URL}/images/inspirations/content/severance_content_1.webp`, 
     description: "Minimalist design inspired by the show's stark visual contrasts and deliberate compositions."
   },
   {
     id: 3,
     title: "untitled.stream",
-    image: "/images/inspirations/untitled_logo.png",
-    contentImage: "/images/inspirations/untitled_1.png",
+    image: `${SUPABASE_URL}/images/inspirations/logo/untitled_logo.png`,
+    contentImage: `${SUPABASE_URL}/images/inspirations/content/untitled_content_1.png`,
     description: "A platform for unreleased music with a simple, distraction-free interface."
   }
 ];
