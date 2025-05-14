@@ -5,10 +5,10 @@ import { SUPABASE_URL } from "@/constants";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-8 bg-[#c9c9c9] relative">
+    <main className="flex min-h-screen flex-col items-center justify-center p-8 bg-[#F8F1E7] relative">
       {/* Name at the top, left-aligned */}
       <div className="text-left w-full max-w-xs mb-6">
-        <h1 className="uppercase text-2xl font-mono tracking-wide">
+        <h1 className="uppercase text-2xl font-mono tracking-wide text-black">
           ELIOS CAMA
         </h1>
       </div>
@@ -38,7 +38,7 @@ export default function Home() {
                 priority
               />
             </div>
-            <span className="absolute top-0 right-2 text-xs font-mono">01</span>
+            <span className="absolute top-0 right-2 text-xs font-mono text-black">01</span>
           </div>
         </Link>
 
@@ -65,7 +65,7 @@ export default function Home() {
                 priority
               />
             </div>
-            <span className="absolute top-0 right-2 text-xs font-mono">02</span>
+            <span className="absolute top-0 right-2 text-xs font-mono text-black">02</span>
           </div>
         </Link>
 
@@ -92,7 +92,7 @@ export default function Home() {
                 priority
               />
             </div>
-            <span className="absolute top-0 right-2 text-xs font-mono">03</span>
+            <span className="absolute top-0 right-2 text-xs font-mono text-black">03</span>
           </div>
         </Link>
 
@@ -119,7 +119,7 @@ export default function Home() {
                 priority
               />
             </div>
-            <span className="absolute top-0 right-2 text-xs font-mono">04</span>
+            <span className="absolute top-0 right-2 text-xs font-mono text-black">04</span>
           </div>
         </Link>
 
@@ -146,7 +146,7 @@ export default function Home() {
                 priority
               />
             </div>
-            <span className="absolute top-0 right-2 text-xs font-mono">05</span>
+            <span className="absolute top-0 right-2 text-xs font-mono text-black">05</span>
           </div>
         </Link>
 
@@ -173,22 +173,22 @@ export default function Home() {
                 priority
               />
             </div>
-            <span className="absolute top-0 right-2 text-xs font-mono">06</span>
+            <span className="absolute top-0 right-2 text-xs font-mono text-black">06</span>
           </div>
         </Link>
       </div>
 
       {/* Links at the bottom on two lines */}
-      <div className="absolute bottom-8 text-center font-mono text-xs">
+      <div className="absolute bottom-8 text-center font-mono text-xs text-black">
         <div className="mb-2">
-          <Link href="/tada" className="hover:underline">(01) ta-da</Link> {" "}
-          <Link href="/loralab" className="hover:underline">(02) loralab</Link> {" "}
-          <a href="https://x.com/eli__cama" target="_blank" rel="noopener noreferrer" className="hover:underline">(03) twitter</a>
+          <Link href="/tada" className="hover:underline text-black">(01) ta-da</Link> {" "}
+          <Link href="/loralab" className="hover:underline text-black">(02) loralab</Link> {" "}
+          <a href="https://x.com/eli__cama" target="_blank" rel="noopener noreferrer" className="hover:underline text-black">(03) twitter</a>
         </div>
         <div>
-          <a href="https://www.linkedin.com/in/elios-cama/" target="_blank" rel="noopener noreferrer" className="hover:underline">(04) linkedin</a> {" "}
-          <Link href="/backpack" className="hover:underline">(05) backpack</Link> {" "}
-          <Link href="/inspirations" className="hover:underline">(06) inspirations</Link>
+          <a href="https://www.linkedin.com/in/elios-cama/" target="_blank" rel="noopener noreferrer" className="hover:underline text-black">(04) linkedin</a> {" "}
+          <Link href="/backpack" className="hover:underline text-black">(05) backpack</Link> {" "}
+          <Link href="/inspirations" className="hover:underline text-black">(06) inspirations</Link>
         </div>
       </div>
     </main>

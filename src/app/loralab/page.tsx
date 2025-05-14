@@ -22,6 +22,17 @@ export default function Loralab() {
   } | null>(null);
   const [conversationId, setConversationId] = useState<string | null>(null);
   const [agentError, setAgentError] = useState<string | null>(null);
+  const [videoSrc, setVideoSrc] = useState<string>("");
+  const [placeholderIndex, setPlaceholderIndex] = useState(0);
+  
+  // Suggested questions that will rotate in the placeholder
+  const suggestedQuestions = [
+    "What is LoraLab?",
+    "What did Elios do at LoraLab?",
+    "What are the KPIs of LoraLab?",
+    "What tech stack was used?",
+    "What are the key features?"
+  ];
   
   // Pre-set prompts and their responses with enhanced content
   const presetPrompts = [
@@ -36,7 +47,7 @@ export default function Loralab() {
           "Users can train custom AI models from their own images, generate high-quality visuals, and transform static images into videos with motion effects.",
           "The platform features a clean, modern interface with intuitive workflows for training and content generation."
         ],
-        images: [`${SUPABASE_URL}/images/loralab/screenshot1.png`]
+        images: []
       }
     },
     { 
@@ -54,7 +65,7 @@ export default function Loralab() {
           "Designed and built a credit-based system for metering platform usage with flexible payment options across fiat and cryptocurrency.",
           "Created a comprehensive API for developers, enabling seamless integration of AI-generated content into applications."
         ],
-        images: [`${SUPABASE_URL}/images/loralab/screenshot2.png`]
+        images: []
       }
     },
     { 
@@ -71,7 +82,7 @@ export default function Loralab() {
           "Strong user retention with 40% of users returning weekly for new content generation.",
           "Processed transactions in both fiat (via Stripe) and cryptocurrency (via MultiversX and Solana wallets)."
         ],
-        images: [`${SUPABASE_URL}/images/loralab/screenshot3.png`]
+        images: []
       }
     },
     { 
@@ -90,10 +101,7 @@ export default function Loralab() {
           "Advanced Processing Pipeline: Asynchronous task processing with status notifications.",
           "Robust API: Comprehensive endpoints for developers with authentication and usage tracking."
         ],
-        images: [
-          `${SUPABASE_URL}/images/loralab/screenshot1.png`,
-          `${SUPABASE_URL}/images/loralab/screenshot2.png`
-        ]
+        images: []
       }
     },
     { 
@@ -109,11 +117,7 @@ export default function Loralab() {
           "Real-time generation status indicators provide feedback during processing.",
           "Wallet connection interfaces support both traditional payment methods and crypto transactions."
         ],
-        images: [
-          `${SUPABASE_URL}/images/loralab/screenshot1.png`,
-          `${SUPABASE_URL}/images/loralab/screenshot2.png`,
-          `${SUPABASE_URL}/images/loralab/screenshot3.png`
-        ]
+        images: []
       }
     }
   ];
@@ -121,6 +125,44 @@ export default function Loralab() {
   // Reference to the prompt input
   const promptInputRef = useRef<HTMLInputElement>(null);
   
+  // Function to select a random video
+  const selectRandomVideo = () => {
+    const videos = [
+      `${SUPABASE_URL}/videos/loralab/loralab_content_1.mp4`,
+      `${SUPABASE_URL}/videos/loralab/loralab_content_2.mp4`,
+      `${SUPABASE_URL}/videos/loralab/loralab_content_3.mp4`,
+    ];
+    const randomIndex = Math.floor(Math.random() * videos.length);
+    setVideoSrc(videos[randomIndex]);
+  };
+  
+  // Function to get a random desktop screenshot
+  const getRandomScreenshot = () => {
+    const screenshots = [
+      `${SUPABASE_URL}/images/loralab/loralab_content_2.webp`,
+      `${SUPABASE_URL}/images/loralab/loralab_content_3.webp`,
+      `${SUPABASE_URL}/images/loralab/loralab_content_4.webp`,
+    ];
+    return screenshots[Math.floor(Math.random() * screenshots.length)];
+  };
+  
+  // Rotate through placeholder suggestions
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setPlaceholderIndex((prevIndex) => (prevIndex + 1) % suggestedQuestions.length);
+    }, 3000); // Change every 3 seconds
+    
+    return () => clearInterval(intervalId);
+  }, [suggestedQuestions.length]);
+  
+  // Auto-focus the input on component mount and select a random video
+  useEffect(() => {
+    if (promptInputRef.current) {
+      promptInputRef.current.focus();
+    }
+    selectRandomVideo();
+  }, []);
+
   // Function to call LoraLab Agent API
   const callLoraLabAgent = async (userQuery: string) => {
     try {
@@ -150,11 +192,11 @@ export default function Loralab() {
         setConversationId(data.conversation_id);
       }
       
-      // Process the response
+      // Process the response with a random screenshot
       setGeneratedContent({
         title: "LoraLab AI Assistant",
         text: data.response.split('\n\n').filter(paragraph => paragraph.trim() !== ''),
-        images: [`${SUPABASE_URL}/images/loralab/screenshot1.png`]
+        images: [getRandomScreenshot()]
       });
       
     } catch (error) {
@@ -162,7 +204,11 @@ export default function Loralab() {
       setAgentError("Unable to connect to the LoraLab agent. Using fallback response.");
       
       // Fallback to a preset response if API call fails
-      setGeneratedContent(presetPrompts[0].response);
+      const fallbackResponse = {
+        ...presetPrompts[0].response,
+        images: [getRandomScreenshot()]
+      };
+      setGeneratedContent(fallbackResponse);
     } finally {
       setIsGenerating(false);
     }
@@ -183,10 +229,15 @@ export default function Loralab() {
     if (matchingPrompt) {
       setPrompt(matchingPrompt.label);
       
-      // For preset prompts, use the predefined responses
+      // For preset prompts, use the predefined responses with a random screenshot
+      const responseWithImage = {
+        ...matchingPrompt.response,
+        images: [getRandomScreenshot()]
+      };
+      
       setTimeout(() => {
         setIsGenerating(false);
-        setGeneratedContent(matchingPrompt.response);
+        setGeneratedContent(responseWithImage);
       }, 1500);
     } else {
       // For custom prompts, call the LoraLab agent API
@@ -201,19 +252,6 @@ export default function Loralab() {
       generateContent(prompt);
     }
   };
-  
-  // Function to handle preset prompt selection
-  const handlePresetClick = (presetLabel: string) => {
-    setPrompt(presetLabel);
-    generateContent(presetLabel);
-  };
-
-  // Auto-focus the input on component mount
-  useEffect(() => {
-    if (promptInputRef.current) {
-      promptInputRef.current.focus();
-    }
-  }, []);
 
   return (
     <div className={`${styles.loralabContainer} scroll-override`} style={{ fontFamily: "'DM Sans', system-ui, -apple-system, sans-serif" }}>
@@ -267,7 +305,7 @@ export default function Loralab() {
       {/* Main content with all black background */}
       <div className={styles.contentContainer}>
         <div className="w-full max-w-3xl mx-auto animate-fade-in-up">
-          {/* Prompt input */}
+          {/* Prompt input with dynamic placeholder */}
           <form onSubmit={handleSubmit} className="mb-8">
             <div className="relative shadow-lg">
               <input
@@ -275,7 +313,7 @@ export default function Loralab() {
                 type="text"
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                placeholder="Ask about LoraLab..."
+                placeholder={`Try asking: "${suggestedQuestions[placeholderIndex]}"`}
                 className="w-full p-4 pr-32 bg-slate-900 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
               />
               <button
@@ -293,18 +331,37 @@ export default function Loralab() {
             )}
           </form>
           
-          {/* Preset prompts */}
-          <div className="mb-8 flex flex-wrap gap-2">
-            {presetPrompts.map((preset) => (
-              <button
-                key={preset.id}
-                onClick={() => handlePresetClick(preset.label)}
-                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-sm rounded-full transition-colors border border-slate-700 hover:border-slate-600"
-              >
-                {preset.label}
-              </button>
-            ))}
-          </div>
+          {/* Promotional Video - Mobile 9:16 format */}
+          {!generatedContent && !isGenerating && videoSrc && (
+            <div className="mt-6 mb-10 relative rounded-xl overflow-hidden shadow-2xl border border-slate-700 hover:border-slate-500 transition-colors">
+              <div className="mx-auto max-w-[350px] relative">
+                <div className="aspect-[9/16] relative">
+                  <video 
+                    src={videoSrc} 
+                    className="w-full h-full object-cover"
+                    autoPlay 
+                    muted 
+                    loop 
+                    playsInline
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <h3 className="text-xl font-bold mb-2 text-white">Experience LoraLab</h3>
+                    <p className="text-xs text-slate-300">AI-powered content generation</p>
+                  </div>
+                  <button 
+                    onClick={selectRandomVideo}
+                    className="absolute bottom-6 right-6 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
+                    title="Show another video"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4C7.58 4 4.01 7.58 4.01 12C4.01 16.42 7.58 20 12 20C15.73 20 18.84 17.45 19.73 14H17.65C16.83 16.33 14.61 18 12 18C8.69 18 6 15.31 6 12C6 8.69 8.69 6 12 6C13.66 6 15.14 6.69 16.22 7.78L13 11H20V4L17.65 6.35Z" fill="white"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
           
           {/* Generated content */}
           {isGenerating && (
@@ -338,13 +395,13 @@ export default function Loralab() {
               </div>
               
               {generatedContent.images && generatedContent.images.length > 0 && (
-                <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="mt-8">
                   {generatedContent.images.map((src, index) => (
-                    <div key={index} className="overflow-hidden rounded-lg border border-slate-700 bg-black shadow-md hover:shadow-lg transition-all hover:scale-[1.02] duration-300">
-                      <div className="aspect-video relative">
+                    <div key={index} className="overflow-hidden rounded-lg border border-slate-700 bg-black shadow-md hover:shadow-lg transition-all hover:scale-[1.01] duration-300">
+                      <div className="aspect-[16/9] relative">
                         <Image
                           src={src}
-                          alt={`LoraLab screenshot ${index + 1}`}
+                          alt={`LoraLab interface ${index + 1}`}
                           fill
                           className="object-cover"
                         />
