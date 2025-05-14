@@ -6,17 +6,72 @@ export const inspirations: InspirationItem[] = [
     id: 1,
     title: "gawx",
     image: `${SUPABASE_URL}/images/inspirations/logo/gawx_logo.png`,
-    contentImage: `${SUPABASE_URL}/images/inspirations/content/gawx_content_1.webp`,
-    description: "Creative digital content with a focus on clean visual aesthetics.",
-    detailedContent: null
+    contentImage: `${SUPABASE_URL}/images/inspirations/content/gawx_content_1.jpg`,
+    description: "The Reflective Creator & Master of Intentionality",
+    detailedContent: {
+      overview: "Gawx, a YouTuber and artist, offers a profound look into the creative process, not just in visual art but in how one curates their life and work. His philosophy extends beyond simple aesthetics, touching on how our environments shape us, how inspiration is a process of transformation, and how ambitious projects come from pushing personal boundaries.",
+      highlights: [
+        {
+          title: "Your Space, Your Self",
+          description: "Gawx's journey of transforming his living space into a direct reflection of his identity and creative process is deeply inspiring. He emphasizes intentionality, stating, \"the play shall be designed with intention... every element... shall serve a purpose.\" He moved from merely existing in a room to consciously curating it to be a studio, a set, and a source of inspiration, demonstrating how an environment can become an extension of one's inner world."
+        },
+        {
+          title: "The Art of Inspiration",
+          description: "His exploration of \"stealing like an artist\" highlights that inspiration isn't about direct copying but about absorbing, transforming, and reinterpreting. His \"telephone game\" analogy for art, where an idea evolves as it passes through different creative minds, perfectly illustrates this. Gawx's own process involved looking at street signs in Tokyo – an \"unexpected\" source – to fuel his \"Anatomy of the Artist Brain\" piece."
+        },
+        {
+          title: "Creating Beyond Comfort",
+          description: "The \"Super Artwork\" video showcases a commitment to ambitious, multi-disciplinary creation, pushing beyond comfort zones to \"mix all of my passions together.\" It's a testament to the power of combining different skills (drawing, painting, animation, photography, filmmaking, music) and leveraging tools to realize a singular, impactful vision. This willingness to tackle complex, personal projects is a huge motivator."
+        },
+        {
+          title: "Connecting to My Development Approach",
+          description: "Gawx's philosophy of intentional creation directly influences my approach to development and design. I aim to build reflective digital experiences, \"steal like a developer\" by drawing inspiration from diverse sources, and embrace ambitious, multi-faceted projects that combine technical skill with design thinking and a strong sense of purpose."
+        }
+      ],
+      attribution: {
+        author: "Gawx Art on YouTube",
+        link: "https://www.youtube.com/@GawxArt",
+        linkText: "Watch Gawx's creative journey"
+      }
+    }
   },
   {
     id: 2,
-    title: "severance",
-    image: `${SUPABASE_URL}/images/inspirations/logo/severance_logo.png`,
-    contentImage: `${SUPABASE_URL}/images/inspirations/content/severance_content_1.webp`, 
-    description: "Minimalist design inspired by the show's stark visual contrasts and deliberate compositions.",
-    detailedContent: null
+    title: "rægular",
+    image: `${SUPABASE_URL}/images/inspirations/logo/raegular_logo.png`,
+    contentImage: `${SUPABASE_URL}/images/inspirations/logo/raegular_logo.png`,
+    description: "Architect of Visual Worlds for French Rap",
+    detailedContent: {
+      overview: "Rægular (Samuel Lamidey) is a standout designer who has shaped a significant part of the visual identity for contemporary French rap, working with artists like Nekfeu, Lomepal, and Alpha Wann. His work is a masterclass in blending graphic design, photography, and typography to create cohesive and impactful visual narratives. What's truly inspiring is his meticulous approach, his deep collaboration with artists, and his ability to make the \"album cover\" more than just an image – it's an object, an idea, and an experience.",
+      highlights: [
+        {
+          title: "Holistic Visual Identity & The Power of the \"Object\"",
+          description: "Rægular doesn't just design covers; he crafts visual identities. He deeply considers the physical \"object\" of an album, as seen with Nekfeu's Cyborg (using actual stickers and then digitally reinterpreting them) or Les Étoiles Vagabondes (the ambitious vacuum-sealed packaging). This respect for materiality, even in a digital-first world, and how it translates to the digital representation is a powerful statement. As he says, \"On peut rester encore hyperconceptuel et créatif. C'est même le but aujourd'hui. On peut être créatif avec une image sur Spotify.\""
+        },
+        {
+          title: "Deep Collaboration & Artist-Centric Vision",
+          description: "He emphasizes that \"la première chose déterminante est la rencontre avec les artistes... les écouter est primordial.\" His process involves understanding the artist's core idea (like Lomepal wanting to be disguised for Flip, or Nekfeu wanting Cyborg to not show his face) and then meticulously bringing that vision to life, often exceeding initial concepts. The relationship is summed up in \"Il sait très bien ce qu'il lui faut, je lui propose plusieurs trucs, et il me dit ensuite vers où aller.\""
+        },
+        {
+          title: "Subtlety and Intentionality in Design",
+          description: "While capable of bold statements, Rægular's work often has a considered subtlety. For Alpha Wann's Une main lave l'autre, the minimalist cover was directly inspired by listening to the album. The \"skate sticker\" logo system for Lomepal's Flip added a nuanced layer to the album's identity over time. Every choice feels intentional, reflecting his philosophy: \"Arrêter de réfléchir une pochette comme une pochette... L'avenir de la pochette est sans fin, sans limite.\""
+        },
+        {
+          title: "Bridging Analog Craft and Digital Presentation",
+          description: "His journey from traditional art education (ENSAD) to using those foundational skills in a modern context is evident. He talks about scanning, retouching, and even \"glitch\" aesthetics, showing a fluency in moving between physical creation and digital execution to achieve a unique result. As he notes, \"Parfois tu fais des choses et elles finissent par te dépasser.\""
+        },
+        {
+          title: "Connecting to My Development Approach",
+          description: "Rægular's dedication to creating unique, artist-reflective \"objects\" inspires my approach to development. I aim to craft cohesive digital experiences where every element forms an intuitive whole, practice user-centricity as deep collaboration, apply intentionality in UI/UX design ensuring each element serves a clear purpose, and blend proven principles with innovative execution to make digital experiences feel considered and special."
+        }
+      ],
+      albumCovers: Array.from({ length: 14 }, (_, i) => `${SUPABASE_URL}/images/inspirations/content/raegular_content_${i + 1}.png`),
+      attribution: {
+        author: "Rægular (Samuel Lamidey)",
+        link: "https://www.instagram.com/raegular",
+        linkText: "Follow Rægular's work"
+      }
+    }
   },
   {
     id: 3,

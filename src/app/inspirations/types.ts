@@ -15,6 +15,7 @@ export interface DetailedContent {
   additionalVideo?: string;
   embedCode?: string;
   attribution?: Attribution;
+  albumCovers?: string[];
 }
 
 export interface InspirationItem {
