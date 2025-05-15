@@ -1,0 +1,642 @@
+/* Color palette based on provided values */
+:root {
+  --electric-purple: #BF00FF;
+  --purple-light-01: #6602CC;
+  --ms-pacman-kiss-dark-03: #800055;
+  --fill-base-600: #06000D;
+  --utility-white: rgba(255, 255, 255, 0.95);
+  --accent-pink-400: rgba(255, 0, 128, 0.5);
+  --blue-pencil: rgba(0, 132, 255, 0.5);
+}
+
+/* Modern container styles */
+.journeyContainer {
+  position: relative;
+  min-height: 580vh; /* Reduced to avoid excessive scrolling after last milestone */
+  width: 100%;
+  overflow-x: hidden;
+  background-color: rgba(0, 0, 0, 0); /* Transparent to show gradients */
+  color: var(--utility-white);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Dark gradient background with radial gradients - more visible at top */
+.gradientBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--fill-base-600);
+  background-image: 
+    radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.25) 0%, transparent 50%),
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  z-index: -2;
+  opacity: 1;
+}
+
+/* Hero section styles - now at the top */
+.heroSection {
+  height: 40vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.heroContent {
+  max-width: 800px;
+  padding: 0 2rem;
+  animation: fadeIn 1s ease-out forwards, slideUp 1s ease-out forwards;
+}
+
+.heroTitle {
+  font-size: 4rem;
+  font-weight: 700;
+  color: white; /* White title instead of gradient */
+  margin: 0 0 1rem;
+  letter-spacing: -1px;
+}
+
+.heroSubtitle {
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+/* Additional top gradient for more visibility */
+.topGradient {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70vh;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 30%, transparent 100%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Path container */
+.pathContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* SVG styling */
+.pathSvg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  z-index: 5; /* Ensure SVG is above other content */
+}
+
+/* Path styling - using purple neon */
+.journeyPath {
+  fill: none;
+  stroke: var(--electric-purple);
+  stroke-width: 4;
+  stroke-linecap: round;
+  filter: url(#glow);
+  opacity: 0.8;
+  animation: pulse 4s infinite alternate;
+  position: relative;
+  z-index: 5; /* Ensure path appears above content */
+}
+
+/* Container for milestone markers */
+.milestonesContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Milestone marker base styles - updated for image-centric design */
+.milestoneMarker {
+  position: absolute;
+  width: 38%; /* Reduced width from 45% */
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-bottom: 2.5rem;
+  z-index: 10; /* Ensure milestone appears above path */
+}
+
+/* Adjust vertical spacing for specific image formats */
+.milestoneMarker:has(.milestoneMainImage[src*="mock.png"]) {
+  margin-bottom: 4rem; /* More space for taller phone mockups */
+}
+
+.milestoneMarker:has(.milestoneMainImage[src*="t_bond.png"]),
+.milestoneMarker:has(.milestoneMainImage[src*="token.svg"]) {
+  margin-bottom: 1.5rem; /* Less space for wider NFT/token images */
+}
+
+/* Right side milestone markers */
+.rightMarker {
+  right: 12%; /* Moved inward from 5% */
+  transform: translateX(0); /* Reset transform to avoid additional offsetting */
+}
+
+/* Left side milestone markers */
+.leftMarker {
+  left: 12%; /* Moved inward from 5% */
+  transform: translateX(0); /* Reset transform to avoid additional offsetting */
+}
+
+/* New milestone image wrapper */
+.milestoneImageWrapper {
+  position: relative;
+  width: 100%;
+  max-height: 350px; /* Increased to 350px */
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3); /* Neutral shadow color */
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0c0915; /* Solid dark background to prevent transparency issues */
+  padding: 20px 16px 16px 16px; /* More padding all around, especially top */
+}
+
+.milestoneImageWrapper:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); /* Neutral shadow color on hover */
+}
+
+/* Main milestone image */
+.milestoneMainImage {
+  width: 100%;
+  height: 100%;
+  max-height: 330px; /* Reduced to account for top padding */
+  object-fit: contain; /* Default to contain for all images */
+  transition: all 0.5s ease;
+  display: block;
+  background-color: #0c0915; /* Solid dark background to prevent transparency issues */
+  padding: 8px 8px 0 8px; /* Added padding for better spacing */
+}
+
+/* Special formatting for mock images (phone format) */
+.milestoneMainImage[src*="mock.png"] {
+  max-height: 330px; /* Updated to match new max height */
+  object-fit: contain;
+  width: auto;
+  margin: 0 auto;
+  background-color: #0c0915; /* Solid dark background */
+  padding: 8px 8px 0 8px; /* Added padding for better spacing */
+}
+
+/* Special formatting for NFT/token images (widescreen format) */
+.milestoneMainImage[src*="t_bond.png"],
+.milestoneMainImage[src*="token.svg"] {
+  object-fit: contain;
+  height: auto;
+  max-height: 280px; /* Reduced to account for padding */
+  background-color: #0c0915; /* Solid dark background */
+  padding: 8px 8px 0 8px; /* Added padding for better spacing */
+}
+
+/* Special handling for square images */
+.milestoneMainImage:not([src*="mock.png"]):not([src*="t_bond.png"]):not([src*="token.svg"]) {
+  max-height: 280px; /* Reduced to account for padding */
+  width: auto;
+  margin: 0 auto;
+  background-color: #0c0915; /* Solid dark background */
+  padding: 8px 8px 0 8px; /* Added padding for better spacing */
+}
+
+.milestoneImageWrapper:hover .milestoneMainImage {
+  transform: scale(1.05);
+}
+
+/* Milestone overlay for information */
+.milestoneOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  background: linear-gradient(to top, rgba(6, 0, 13, 0.9) 0%, rgba(6, 0, 13, 0.7) 50%, transparent 100%);
+  transition: all 0.3s ease;
+  min-height: 120px; /* Ensure overlay has enough space for content */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* For specific image types, use custom overlay heights */
+.milestoneMainImage[src*="mock.png"] ~ .milestoneOverlay {
+  min-height: 100px;
+  background: linear-gradient(to top, rgba(6, 0, 13, 0.95) 0%, rgba(6, 0, 13, 0.8) 40%, rgba(6, 0, 13, 0.5) 70%, transparent 100%);
+}
+
+/* For token and NFT (widescreen format), use more subtle overlay */
+.milestoneMainImage[src*="t_bond.png"] ~ .milestoneOverlay,
+.milestoneMainImage[src*="token.svg"] ~ .milestoneOverlay {
+  background: linear-gradient(to top, rgba(6, 0, 13, 0.9) 0%, rgba(6, 0, 13, 0.6) 60%, transparent 100%);
+}
+
+.milestoneInfo {
+  transform: translateY(0);
+  transition: all 0.3s ease;
+}
+
+.milestoneImageWrapper:hover .milestoneInfo {
+  transform: translateY(-5px);
+}
+
+/* Milestone date */
+.milestoneDate {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.8); /* Neutral white color instead of purple */
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* Milestone title */
+.milestoneTitle {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem 0;
+  color: #ffffff; /* White text instead of gradient */
+  letter-spacing: -0.5px;
+}
+
+/* Learn more indicator */
+.learnMoreIndicator {
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
+  opacity: 0.8;
+}
+
+.learnMoreIndicator svg {
+  margin-left: 6px;
+  transition: transform 0.3s ease;
+}
+
+.milestoneImageWrapper:hover .learnMoreIndicator {
+  color: rgba(255, 255, 255, 0.9); /* White hover color instead of purple */
+  opacity: 1;
+}
+
+.milestoneImageWrapper:hover .learnMoreIndicator svg {
+  transform: translateX(4px);
+}
+
+/* Modal styles - without purple */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(6, 0, 13, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modalContent {
+  background: var(--fill-base-600);
+  border-radius: 16px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 90%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 2.5rem;
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.closeButton {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: rgba(100, 100, 100, 0.3);
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.closeButton:hover {
+  background: rgba(150, 150, 150, 0.5);
+}
+
+.modalHeader {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 1.5rem;
+}
+
+.modalTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.modalDate {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+}
+
+.modalBody {
+  padding-right: 0.5rem;
+}
+
+.modalDescription {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.modalSection {
+  margin-bottom: 2.5rem;
+}
+
+.modalSectionTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+}
+
+.modalSectionTitle::before {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.6);
+  margin-right: 10px;
+}
+
+.modalList {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.modalListItem {
+  position: relative;
+  padding-left: 1.75rem;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.modalListItem::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.techStack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.techBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: rgba(50, 50, 50, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 30px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.techBadge:hover {
+  background: rgba(70, 70, 70, 0.4);
+}
+
+.imageGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+/* Image container in modal - no borders */
+.imageContainer {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  background: #0c0915; /* Solid dark background */
+  border: none; /* Removed border */
+  transition: all 0.3s ease;
+  aspect-ratio: 16 / 9;
+}
+
+.imageContainer:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+}
+
+.modalImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+.modalImage:hover {
+  opacity: 0.9;
+}
+
+/* Modern back button - mobile style chevron */
+.backLink {
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+  z-index: 50;
+}
+
+.backLink a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: all 0.25s ease;
+  background: rgba(20, 20, 30, 0.6);
+  backdrop-filter: blur(10px);
+  padding: 0.7rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.backLink a::before {
+  content: '';
+  display: block;
+  width: 0.8rem;
+  height: 0.8rem;
+  border-left: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: rotate(45deg);
+  margin-right: -0.2rem;
+  transition: transform 0.2s ease;
+}
+
+.backLink a:hover {
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(40, 40, 50, 0.8);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  transform: translateY(-3px);
+}
+
+.backLink a:hover::before {
+  transform: rotate(45deg) scale(1.1);
+}
+
+/* Pre-calculate last milestone bottom padding */
+.milestoneMarker:last-of-type {
+  margin-bottom: 20vh; /* Add padding after last milestone */
+}
+
+/* Animations */
+@keyframes pulse {
+  0% {
+    filter: drop-shadow(0 0 3px rgba(191, 0, 255, 0.5)) drop-shadow(0 0 8px rgba(191, 0, 255, 0.3));
+    opacity: 0.7;
+  }
+  100% {
+    filter: drop-shadow(0 0 5px rgba(191, 0, 255, 0.7)) drop-shadow(0 0 15px rgba(191, 0, 255, 0.5));
+    opacity: 0.9;
+  }
+}
+
+/* Media queries for responsive design */
+@media (max-width: 1200px) {
+  .milestoneMarker {
+    width: 60%;
+  }
+}
+
+@media (max-width: 900px) {
+  .heroTitle {
+    font-size: 3rem;
+  }
+  
+  .milestoneMarker {
+    width: 75%;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 2.5rem;
+  }
+  
+  .heroSubtitle {
+    font-size: 1.2rem;
+  }
+  
+  .rightMarker, .leftMarker {
+    left: 10% !important;
+    right: 10% !important;
+    width: 80%;
+  }
+  
+  .milestoneTitle {
+    font-size: 1.2rem;
+  }
+
+  .modalTitle {
+    font-size: 1.5rem;
+  }
+
+  .modalContent {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroTitle {
+    font-size: 2rem;
+  }
+  
+  .heroSubtitle {
+    font-size: 1rem;
+  }
+  
+  .rightMarker, .leftMarker {
+    left: 5% !important;
+    right: 5% !important;
+    width: 90%;
+  }
+
+  .modalContent {
+    padding: 1.5rem 1rem;
+  }
+
+  .modalTitle {
+    font-size: 1.3rem;
+  }
+
+  .backLink {
+    bottom: 1.5rem;
+    left: 1.5rem;
+  }
+} 

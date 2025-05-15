@@ -34,94 +34,6 @@ export default function Loralab() {
     "What are the key features?"
   ];
   
-  // Pre-set prompts and their responses with enhanced content
-  const presetPrompts = [
-    { 
-      id: "what-is", 
-      label: "What is LoraLab?", 
-      response: {
-        title: "LoraLab: AI Content Generation Platform",
-        text: [
-          "LoraLab is a sophisticated AI content creation platform enabling users to generate and customize AI models, images, and videos.",
-          "The platform leverages state-of-the-art machine learning technologies for image generation, LoRA (Low-Rank Adaptation) model training, video creation, and voice cloning.",
-          "Users can train custom AI models from their own images, generate high-quality visuals, and transform static images into videos with motion effects.",
-          "The platform features a clean, modern interface with intuitive workflows for training and content generation."
-        ],
-        images: []
-      }
-    },
-    { 
-      id: "what-i-did", 
-      label: "My Role", 
-      response: {
-        title: "My Role & Tech Stack",
-        text: [
-          "Founded and developed LoraLab from scratch as a full-stack solution, serving as both technical lead and product architect.",
-          "Frontend: Next.js 14 with React, App Router architecture, Tailwind CSS, Zustand for state management, and Framer Motion for animations.",
-          "Backend: FastAPI (Python), Supabase for database and auth, AWS Lambda for serverless deployment, Docker for containerization.",
-          "AI Integration: Replicate API for model training/inference, API-based integrations with state-of-the-art AI models.",
-          "Payment Processing: Implemented Stripe for subscription management and credit purchases, plus blockchain wallet connections for MultiversX and Solana crypto payments.",
-          "Implemented asynchronous architecture for handling resource-intensive AI operations while maintaining responsive performance.",
-          "Designed and built a credit-based system for metering platform usage with flexible payment options across fiat and cryptocurrency.",
-          "Created a comprehensive API for developers, enabling seamless integration of AI-generated content into applications."
-        ],
-        images: []
-      }
-    },
-    { 
-      id: "kpis", 
-      label: "Key Performance Indicators", 
-      response: {
-        title: "LoraLab Growth & Success",
-        text: [
-          "5,000+ active users across the platform with steady month-over-month growth.",
-          "$1,000+ Monthly Recurring Revenue (MRR) through subscription model with multiple pricing tiers.",
-          "100,000+ AI assets generated through the platform.",
-          "Thousands of views on promotional content across social media channels.",
-          "Successfully launched API access for developers with enterprise clients integration.",
-          "Strong user retention with 40% of users returning weekly for new content generation.",
-          "Processed transactions in both fiat (via Stripe) and cryptocurrency (via MultiversX and Solana wallets)."
-        ],
-        images: []
-      }
-    },
-    { 
-      id: "key-features", 
-      label: "Key Features", 
-      response: {
-        title: "Platform Capabilities",
-        text: [
-          "Custom AI Model Training: Users can train their own LoRA models from personal image collections.",
-          "High-Quality Image Generation: Generate detailed visuals using fine-tuned models with prompt enhancement.",
-          "Video Creation: Transform static images into videos with dynamic motion effects.",
-          "Voice Cloning: Generate voiceovers and audio content with customizable voices.",
-          "Public Gallery: Explore community creations and trending models.",
-          "Multi-Currency Payments: Credit purchases via Stripe, MultiversX, and Solana blockchain integration.",
-          "Credits System: Flexible usage-based pricing model for different generation capabilities.",
-          "Advanced Processing Pipeline: Asynchronous task processing with status notifications.",
-          "Robust API: Comprehensive endpoints for developers with authentication and usage tracking."
-        ],
-        images: []
-      }
-    },
-    { 
-      id: "screenshots", 
-      label: "Show screenshots", 
-      response: {
-        title: "LoraLab Platform Interface",
-        text: [
-          "The LoraLab platform features an intuitive interface for AI content generation.",
-          "The modern UI includes model training dashboards, generation workspaces, and media galleries.",
-          "Users can easily input prompts, adjust parameters, and generate high-quality outputs.",
-          "The responsive design is optimized for both desktop and mobile experiences.",
-          "Real-time generation status indicators provide feedback during processing.",
-          "Wallet connection interfaces support both traditional payment methods and crypto transactions."
-        ],
-        images: []
-      }
-    }
-  ];
-
   // Reference to the prompt input
   const promptInputRef = useRef<HTMLInputElement>(null);
   
@@ -201,47 +113,16 @@ export default function Loralab() {
       
     } catch (error) {
       console.error("Error calling LoraLab agent:", error);
-      setAgentError("Unable to connect to the LoraLab agent. Using fallback response.");
+      setAgentError("Unable to connect to the LoraLab agent. Please try again later.");
       
-      // Fallback to a preset response if API call fails
-      const fallbackResponse = {
-        ...presetPrompts[0].response,
-        images: [getRandomScreenshot()]
-      };
-      setGeneratedContent(fallbackResponse);
+      // Set generic error response instead of using preset prompts
+      setGeneratedContent({
+        title: "Connection Error",
+        text: ["I'm having trouble connecting to the LoraLab service right now. Please try again in a moment."],
+        images: []
+      });
     } finally {
       setIsGenerating(false);
-    }
-  };
-  
-  // Function to handle generating content
-  const generateContent = (selectedPrompt: string) => {
-    // Clear any existing content
-    setGeneratedContent(null);
-    setIsGenerating(true);
-    
-    // Find the matching preset prompt
-    const matchingPrompt = presetPrompts.find(p => 
-      p.label.toLowerCase().includes(selectedPrompt.toLowerCase()) || 
-      selectedPrompt.toLowerCase().includes(p.id)
-    );
-    
-    if (matchingPrompt) {
-      setPrompt(matchingPrompt.label);
-      
-      // For preset prompts, use the predefined responses with a random screenshot
-      const responseWithImage = {
-        ...matchingPrompt.response,
-        images: [getRandomScreenshot()]
-      };
-      
-      setTimeout(() => {
-        setIsGenerating(false);
-        setGeneratedContent(responseWithImage);
-      }, 1500);
-    } else {
-      // For custom prompts, call the LoraLab agent API
-      callLoraLabAgent(selectedPrompt);
     }
   };
   
@@ -249,7 +130,12 @@ export default function Loralab() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (prompt.trim() !== "") {
-      generateContent(prompt);
+      // Clear any existing content
+      setGeneratedContent(null);
+      setIsGenerating(true);
+      
+      // Always call the agent API
+      callLoraLabAgent(prompt);
     }
   };
 

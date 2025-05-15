@@ -1,0 +1,435 @@
+/* Main container */
+.tadaContainer {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  background-color: #0c0915;
+  color: #fff;
+  overflow-x: hidden;
+  overflow-y: auto; /* Ensure vertical scrolling is enabled */
+}
+
+/* Gradient background with inspiration from the Flutter gradient */
+.gradientBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  background: radial-gradient(circle at top left, rgba(128, 90, 213, 0.2) 0%, transparent 60%),
+              radial-gradient(circle at top right, rgba(193, 53, 132, 0.15) 0%, transparent 60%),
+              radial-gradient(circle at top center, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Hero section */
+.heroSection {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  padding: 2rem 1rem;
+  margin-bottom: 4rem; /* Add space after hero section */
+}
+
+/* Timeline section */
+.timelineSection {
+  position: relative;
+  padding: 4rem 0 8rem; /* Increase bottom padding */
+  z-index: 1;
+  min-height: 150vh; /* Adjusted height */
+}
+
+/* Vertical timeline bar */
+.timelineBar {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: rgba(128, 90, 213, 0.3);
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+/* Progress indicator on the timeline */
+.timelineProgress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  background: linear-gradient(to bottom, #9c6ade, #c13584);
+  z-index: 2;
+  transition: height 0.1s ease-out;
+}
+
+/* Milestones container */
+.milestones {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Individual milestone */
+.milestone {
+  position: relative;
+  margin-bottom: 12rem; /* Increase spacing between milestones */
+  width: 100%;
+  z-index: 2;
+}
+
+/* Left-positioned milestone */
+.leftMilestone {
+  padding-right: calc(50% + 2rem);
+  text-align: right;
+}
+
+/* Right-positioned milestone */
+.rightMilestone {
+  padding-left: calc(50% + 2rem);
+  text-align: left;
+}
+
+/* Milestone date */
+.milestoneDate {
+  font-family: monospace;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 0.5rem;
+}
+
+/* Milestone content box */
+.milestoneContent {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  background: rgba(30, 20, 50, 0.6);
+  backdrop-filter: blur(12px);
+  border-radius: 1rem;
+  border: 1px solid rgba(128, 90, 213, 0.3);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.milestoneContent:hover {
+  transform: translateY(-5px);
+  border-color: rgba(128, 90, 213, 0.6);
+  box-shadow: 0 8px 30px rgba(128, 90, 213, 0.2);
+}
+
+.leftMilestone .milestoneContent {
+  flex-direction: row-reverse;
+}
+
+.rightMilestone .milestoneContent {
+  flex-direction: row;
+}
+
+/* Milestone image container */
+.milestoneImageContainer {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(20, 10, 30, 0.6);
+  padding: 0.5rem;
+  margin: 0 1rem;
+  border: 1px solid rgba(128, 90, 213, 0.2);
+}
+
+/* Milestone image */
+.milestoneImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Milestone info */
+.milestoneInfo {
+  flex: 1;
+}
+
+/* Milestone title */
+.milestoneTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(to right, #9c6ade, #c13584);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Milestone description */
+.milestoneDescription {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 1rem;
+}
+
+/* Details button */
+.detailsButton {
+  background: rgba(128, 90, 213, 0.2);
+  color: #9c6ade;
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(128, 90, 213, 0.3);
+  border-radius: 2rem;
+  transition: all 0.2s ease;
+}
+
+.detailsButton:hover {
+  background: rgba(128, 90, 213, 0.3);
+  border-color: rgba(128, 90, 213, 0.5);
+}
+
+/* Tech stack section */
+.techStackSection {
+  padding: 8rem 0 12rem; /* Increase padding to create more scrollable content */
+  position: relative;
+  z-index: 1;
+}
+
+/* Tech card */
+.techCard {
+  background: rgba(30, 20, 50, 0.6);
+  backdrop-filter: blur(12px);
+  border-radius: 1rem;
+  border: 1px solid rgba(128, 90, 213, 0.3);
+  padding: 1.5rem;
+  transition: all 0.2s ease;
+}
+
+.techCard:hover {
+  transform: translateY(-5px);
+  border-color: rgba(128, 90, 213, 0.6);
+  box-shadow: 0 8px 30px rgba(128, 90, 213, 0.2);
+}
+
+/* Tech icon container */
+.techIconContainer {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+/* Tech title */
+.techTitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(to right, #9c6ade, #c13584);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Tech description */
+.techDescription {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Dialog overlay */
+.dialogOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+  overflow-y: auto;
+  backdrop-filter: blur(8px);
+}
+
+/* Dialog content */
+.dialogContent {
+  position: relative;
+  background: rgba(20, 10, 30, 0.95);
+  border-radius: 1rem;
+  border: 1px solid rgba(128, 90, 213, 0.5);
+  padding: 2rem;
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Close button */
+.closeButton {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  background: rgba(128, 90, 213, 0.2);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+  background: rgba(128, 90, 213, 0.4);
+}
+
+/* Dialog header */
+.dialogHeader {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(128, 90, 213, 0.3);
+}
+
+/* Dialog title */
+.dialogTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(to right, #9c6ade, #c13584);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Dialog date */
+.dialogDate {
+  font-family: monospace;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Dialog description */
+.dialogDescription {
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Dialog subtitle */
+.dialogSubtitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Dialog details */
+.dialogDetails {
+  margin-bottom: 2rem;
+}
+
+/* Dialog list */
+.dialogList {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* Dialog list item */
+.dialogListItem {
+  padding: 0.5rem 0;
+  position: relative;
+  padding-left: 1.5rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.dialogListItem::before {
+  content: "•";
+  color: #9c6ade;
+  position: absolute;
+  left: 0;
+  font-size: 1.2rem;
+}
+
+/* Dialog screenshots */
+.dialogScreenshots {
+  margin-bottom: 1rem;
+}
+
+/* Screenshots grid */
+.screenshotsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+/* Screenshot container */
+.screenshotContainer {
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid rgba(128, 90, 213, 0.3);
+  background: rgba(10, 5, 15, 0.5);
+}
+
+/* Screenshot */
+.screenshot {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Media queries for responsive design */
+@media (max-width: 768px) {
+  .leftMilestone, 
+  .rightMilestone {
+    padding: 0;
+    text-align: left;
+    margin-left: 2rem;
+  }
+  
+  .timelineBar {
+    left: 0;
+    transform: none;
+  }
+  
+  .leftMilestone .milestoneContent,
+  .rightMilestone .milestoneContent {
+    flex-direction: row;
+  }
+  
+  .milestoneImageContainer {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .milestoneTitle {
+    font-size: 1.25rem;
+  }
+  
+  .milestoneDescription {
+    font-size: 0.9rem;
+  }
+  
+  .dialogContent {
+    padding: 1.5rem;
+  }
+  
+  .dialogTitle {
+    font-size: 1.5rem;
+  }
+  
+  .screenshotsGrid {
+    grid-template-columns: 1fr;
+  }
+} 
