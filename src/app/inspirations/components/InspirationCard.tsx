@@ -22,7 +22,7 @@ export default function InspirationCard({ inspiration, onClick }: InspirationCar
           alt={inspiration.title}
           width={120}
           height={120}
-          className="object-contain rounded-xl"
+          className="object-contain rounded-xl h-auto w-auto"
         />
       </div>
       <p className="mt-2 text-xs text-center font-mono text-gray-600 truncate w-full">{inspiration.title}</p>

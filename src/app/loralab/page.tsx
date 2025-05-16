@@ -151,7 +151,7 @@ export default function Loralab() {
                 alt="LoraLab Logo" 
                 width={24} 
                 height={24} 
-                className="rounded-full" 
+                className="rounded-full h-auto w-auto" 
               />
             </div>
             <span className="text-xl font-bold">LoraLab</span>
@@ -165,7 +165,8 @@ export default function Loralab() {
             className="flex items-center gap-2 px-4 py-2 bg-white !text-black font-bold rounded-full hover:bg-gray-100 transition-colors text-sm shadow-sm"
             style={{ color: 'black' }}
           >
-            <span className="text-black">Visit the website</span>
+            <span className="text-black hidden sm:inline">Visit the website</span>
+            <span className="text-black sm:hidden">Visit</span>
             <svg 
               width="16" 
               height="16" 
@@ -190,22 +191,22 @@ export default function Loralab() {
       
       {/* Main content with all black background */}
       <div className={styles.contentContainer}>
-        <div className="w-full max-w-3xl mx-auto animate-fade-in-up">
+        <div className="w-full max-w-3xl mx-auto animate-fade-in-up px-4 sm:px-0">
           {/* Prompt input with dynamic placeholder */}
           <form onSubmit={handleSubmit} className="mb-8">
-            <div className="relative shadow-lg">
+            <div className="relative shadow-lg flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0">
               <input
                 ref={promptInputRef}
                 type="text"
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                placeholder={`Try asking: "${suggestedQuestions[placeholderIndex]}"`}
-                className="w-full p-4 pr-32 bg-slate-900 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white"
+                placeholder={`Ask: "${suggestedQuestions[placeholderIndex]}"`}
+                className="w-full p-3 sm:p-4 sm:pr-32 bg-slate-900 border border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white text-sm sm:text-base"
               />
               <button
                 type="submit"
                 disabled={isGenerating}
-                className="absolute right-2 top-2 px-6 py-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white rounded-md transition-all disabled:opacity-70 disabled:cursor-not-allowed font-medium"
+                className="sm:absolute sm:right-2 sm:top-2 px-4 sm:px-6 py-2 bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white rounded-md transition-all disabled:opacity-70 disabled:cursor-not-allowed font-medium text-sm sm:text-base"
               >
                 {isGenerating ? "Generating..." : "Generate"}
               </button>
@@ -251,7 +252,7 @@ export default function Loralab() {
           
           {/* Generated content */}
           {isGenerating && (
-            <div className="mt-6 p-8 bg-slate-900 rounded-lg border border-slate-800 shadow-lg">
+            <div className="mt-6 p-4 sm:p-8 bg-slate-900 rounded-lg border border-slate-800 shadow-lg">
               <div className="flex items-center space-x-3 mb-6">
                 <div className="animate-pulse h-3 w-3 rounded-full bg-blue-500"></div>
                 <p className="text-slate-400">Generating response{conversationId ? " (continuing conversation)" : ""}...</p>
@@ -269,12 +270,12 @@ export default function Loralab() {
           )}
           
           {generatedContent && !isGenerating && (
-            <div className="mt-6 p-8 bg-slate-900 rounded-lg border border-slate-800 shadow-lg transition-all">
-              <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-blue-400 inline-block text-transparent bg-clip-text">{generatedContent.title}</h2>
+            <div className="mt-6 p-4 sm:p-8 bg-slate-900 rounded-lg border border-slate-800 shadow-lg transition-all">
+              <h2 className="text-xl sm:text-2xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-blue-400 inline-block text-transparent bg-clip-text">{generatedContent.title}</h2>
               
               <div className="mb-8 space-y-4">
                 {generatedContent.text.map((line, index) => (
-                  <p key={index} className="text-slate-100 text-base leading-relaxed">
+                  <p key={index} className="text-slate-100 text-sm sm:text-base leading-relaxed">
                     {line}
                   </p>
                 ))}

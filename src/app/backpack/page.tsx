@@ -137,7 +137,7 @@ export default function Backpack() {
                 alt="Elios"
                 width={180}
                 height={180}
-                className="object-contain select-none drop-shadow-lg"
+                className="object-contain select-none drop-shadow-lg h-auto w-auto"
                 priority
                 draggable="false"
               />
@@ -165,7 +165,7 @@ export default function Backpack() {
                 alt={item.name}
                 width={item.size}
                 height={item.size}
-                className="object-contain select-none pointer-events-none drop-shadow-md"
+                className="object-contain select-none pointer-events-none drop-shadow-md h-auto w-auto"
                 draggable="false"
                 priority
               />
