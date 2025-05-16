@@ -377,12 +377,10 @@ export default function TadaJourney() {
             { 
               opacity: 0,
               x: milestone.position === 'right' ? 100 : -100,
-              scale: 0.8,
             },
             {
               opacity: 1,
               x: 0,
-              scale: 1,
               duration: 0.5,
               scrollTrigger: {
                 trigger: markerElement,

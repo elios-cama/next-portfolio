@@ -9,7 +9,9 @@ export default function Home() {
       {/* Name at the top, left-aligned */}
       <div className="text-left w-full max-w-xs mb-6">
         <h1 className="uppercase text-2xl font-mono tracking-wide text-black">
-          ELIOS CAMA
+          <a href="https://github.com/elios-cama" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
+            ELIOS CAMA
+          </a>
         </h1>
       </div>
 
