@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./styles/tada-journey.module.css";
@@ -18,7 +18,7 @@ type MilestoneImage = {
   alt: string;
 };
 
-type Milestone = {
+interface MilestoneType {
   id: number;
   title: string;
   date: string;
@@ -34,7 +34,7 @@ type Milestone = {
     techStack?: string[];
     images?: MilestoneImage[];
   };
-};
+}
 
 export default function TadaJourney() {
   const [activeModal, setActiveModal] = useState<number | null>(null);
@@ -43,7 +43,7 @@ export default function TadaJourney() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Sample milestones data with actual image paths
-  const milestones: Milestone[] = [
+  const milestones = useMemo<MilestoneType[]>(() => [
     {
       id: 1,
       title: "Internship Kick-off (FR)",
@@ -314,7 +314,7 @@ export default function TadaJourney() {
         ]
       }
     },
-  ];
+  ], []);
 
   // Pre-calculate milestone positions
   const milestonePositions = milestones.map((_, index) => {
@@ -369,7 +369,7 @@ export default function TadaJourney() {
       });
       
       // Animate each milestone marker
-      milestones.forEach((milestone, index) => {
+      milestones.forEach((milestone) => {
         const markerElement = document.getElementById(`milestone-${milestone.id}`);
         if (markerElement) {
           gsap.fromTo(
@@ -408,7 +408,7 @@ export default function TadaJourney() {
     : null;
 
   return (
-    <div className={styles.journeyContainer} ref={containerRef}>
+    <div className={`${styles.journeyContainer} ${styles.variables}`} ref={containerRef}>
       {/* Gradient background */}
       <div className={styles.gradientBackground}></div>
       
