@@ -16,6 +16,7 @@ if (typeof window !== "undefined") {
 type MilestoneImage = {
   url: string;
   alt: string;
+  isLandscape?: boolean;
 };
 
 interface MilestoneType {
@@ -38,6 +39,7 @@ interface MilestoneType {
 
 export default function TadaJourney() {
   const [activeModal, setActiveModal] = useState<number | null>(null);
+  const [zoomedImage, setZoomedImage] = useState<string | null>(null);
   const pathRef = useRef<SVGPathElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -67,8 +69,8 @@ export default function TadaJourney() {
         ],
         techStack: ["Flutter", "Dart", "Riverpod", "CustomPainter", "Easy Localization"],
         images: [
-          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/start.png", alt: "Flutter codebase" },
-          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/mock.png", alt: "First feature implementation" }
+          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/screenshots/tada_content_first_1.png", alt: "Profile page redesign" },
+          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/screenshots/tada_content_first_2.png", alt: "Energy widget implementation" }
         ]
       }
     },
@@ -92,11 +94,7 @@ export default function TadaJourney() {
           "Seamlessly transitioned from intern to on-site full-time developer",
           "Quickly integrated into the Dubai tech ecosystem"
         ],
-        techStack: ["Flutter", "Dart", "Firebase"],
-        images: [
-          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/burj.png", alt: "Dubai office" },
-          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/mock.png", alt: "Team meeting" }
-        ]
+        techStack: ["Flutter", "Dart", "Firebase"]
       }
     },
     {
@@ -124,8 +122,10 @@ export default function TadaJourney() {
         ],
         techStack: ["Flutter", "Dart", "Melos", "Riverpod", "GoRouter", "OAuth", "WebView", "Figma"],
         images: [
-          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/mock.png", alt: "App UI before refactor" },
-          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/mock.png", alt: "App UI after refactor" }
+          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/screenshots/tada_content_third_1.png", alt: "App refactor architecture" },
+          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/screenshots/tada_content_third_2.png", alt: "New task types UI" },
+          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/screenshots/tada_content_third_3.png", alt: "Social media integration" },
+          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/screenshots/tada_content_third_4.png", alt: "Image classification tasks" }
         ]
       }
     },
@@ -154,8 +154,9 @@ export default function TadaJourney() {
         ],
         techStack: ["Flutter", "Dart", "MultiversX", "BIP39", "ED25519", "Bech32", "Smart Contracts", "Biometric Authentication", "BigInt", "ABI Encoding"],
         images: [
-          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/token.svg", alt: "Blockchain integration diagram" },
-          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/t_bond.png", alt: "Wallet connection flow" }
+          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/screenshots/tada_content_fourth_1.png", alt: "Wallet creation flow" },
+          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/screenshots/tada_content_fourth_2.png", alt: "Blockchain transactions" },
+          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/screenshots/tada_content_fourth_3.png", alt: "Smart contract integration" }
         ]
       }
     },
@@ -185,8 +186,9 @@ export default function TadaJourney() {
         ],
         techStack: ["Flutter", "Dart", "Animation Controllers", "Rive Animations", "CustomPainter", "Haptic Feedback", "Audio Services"],
         images: [
-          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/gamification.png", alt: "Gamification UI elements" },
-          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/mock.png", alt: "Rewards system" }
+          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/screenshots/tada_content_fifth_1.png", alt: "Lootbox system" },
+          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/screenshots/tada_content_fifth_2.png", alt: "Animation sequences" },
+          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/screenshots/tada_content_fifth_3.png", alt: "Reward visualization" }
         ]
       }
     },
@@ -216,8 +218,7 @@ export default function TadaJourney() {
         ],
         techStack: ["Flutter Web", "JavaScript", "TON", "Solana", "TonConnect UI", "Particle Network SDK", "OAuth", "Telegram Web App JS", "js_util", "Keccak Hashing"],
         images: [
-          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/ton.webp", alt: "Telegram Mini-App" },
-          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/t_bond.png", alt: "TON integration" }
+          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/screenshots/tada_content_sixth_1.png", alt: "Telegram Mini-App interface" }
         ]
       }
     },
@@ -248,8 +249,9 @@ export default function TadaJourney() {
         ],
         techStack: ["Flutter", "Dart", "MultiversX", "React", "Next.js", "MultiversX Connect", "Binary Encoding", "Mathematical Modeling", "Blockchain Transactions"],
         images: [
-          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/t_bond.png", alt: "NFT showcase" },
-          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/token.svg", alt: "Rewards system v2" }
+          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/screenshots/tada_content_seventh_1.png", alt: "NFT conversion system" },
+          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/screenshots/tada_content_seventh_2.png", alt: "Rewards to NFT interface" },
+          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/screenshots/tada_content_seventh_3.png", alt: "Web redemption platform", isLandscape: true }
         ]
       }
     },
@@ -278,8 +280,8 @@ export default function TadaJourney() {
         ],
         techStack: ["Flutter", "Dart", "Camera Plugin", "Video Player", "Platform Channels", "Blob URL", "Media Compression", "Error Handling"],
         images: [
-          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/camera.png", alt: "Media upload feature" },
-          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/camera.png", alt: "Video player implementation" }
+          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/screenshots/tada_content_eighth_1.png", alt: "Media capture interface" },
+          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/screenshots/tada_content_eighth_2.png", alt: "Video recording functionality" }
         ]
       }
     },
@@ -309,8 +311,8 @@ export default function TadaJourney() {
         ],
         techStack: ["Flutter", "Dart", "React", "Next.js", "Documentation", "Code Commenting", "Knowledge Management"],
         images: [
-          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/ending.png", alt: "New web platform" },
-          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/mock.png", alt: "User migration dashboard" }
+          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/screenshots/tada_content_ninth_1.png", alt: "Platform transition interface" },
+          { url: "https://xhbcnrqoulxkmmjvbddh.supabase.co/storage/v1/object/public/content/images/tada/screenshots/tada_content_ninth_2.png", alt: "User migration dashboard", isLandscape: true }
         ]
       }
     },
@@ -326,8 +328,8 @@ export default function TadaJourney() {
 
   // Ensure document can scroll
   useEffect(() => {
-    document.documentElement.style.overflow = activeModal ? 'hidden' : 'auto';
-    document.body.style.overflow = activeModal ? 'hidden' : 'auto';
+    document.documentElement.style.overflow = (activeModal || zoomedImage) ? 'hidden' : 'auto';
+    document.body.style.overflow = (activeModal || zoomedImage) ? 'hidden' : 'auto';
     
     // Mark component as loaded after initial render
     if (!isLoaded) {
@@ -338,7 +340,7 @@ export default function TadaJourney() {
       document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
     };
-  }, [activeModal, isLoaded]);
+  }, [activeModal, zoomedImage, isLoaded]);
 
   // Initialize animations when component mounts
   useEffect(() => {
@@ -400,6 +402,14 @@ export default function TadaJourney() {
 
   const closeModal = () => {
     setActiveModal(null);
+  };
+
+  const openZoomedImage = (imageUrl: string) => {
+    setZoomedImage(imageUrl);
+  };
+
+  const closeZoomedImage = () => {
+    setZoomedImage(null);
   };
 
   // Find the active milestone data
@@ -541,7 +551,11 @@ export default function TadaJourney() {
                   <h3 className={styles.modalSectionTitle}>Screenshots</h3>
                   <div className={styles.imageGrid}>
                     {activeMilestoneData.detailedContent.images.map((image, idx) => (
-                      <div key={idx} className={styles.imageContainer}>
+                      <div 
+                        key={idx} 
+                        className={`${styles.imageContainer} ${image.isLandscape ? styles.landscapeImage : styles.portraitImage}`}
+                        onClick={() => openZoomedImage(image.url)}
+                      >
                         <Image 
                           src={image.url}
                           alt={image.alt}
@@ -549,11 +563,37 @@ export default function TadaJourney() {
                           height={400}
                           className={styles.modalImage}
                         />
+                        <div className={styles.zoomIndicator}>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                            <line x1="11" y1="8" x2="11" y2="14"/>
+                            <line x1="8" y1="11" x2="14" y2="11"/>
+                          </svg>
+                        </div>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Zoom Modal */}
+      {zoomedImage && (
+        <div className={styles.zoomModalOverlay} onClick={closeZoomedImage}>
+          <div className={styles.zoomModalContent} onClick={(e) => e.stopPropagation()}>
+            <button className={styles.zoomCloseButton} onClick={closeZoomedImage}>×</button>
+            <div className={styles.zoomImageContainer}>
+              <Image 
+                src={zoomedImage}
+                alt="Zoomed screenshot"
+                width={1200}
+                height={800}
+                className={styles.zoomedImage}
+              />
             </div>
           </div>
         </div>

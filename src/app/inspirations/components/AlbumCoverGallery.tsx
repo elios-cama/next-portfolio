@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback, useMemo } from 'react';
 import Image from 'next/image';
 import styles from './albumCoverGallery.module.css';
 
@@ -9,20 +9,37 @@ interface AlbumCoverGalleryProps {
 export default function AlbumCoverGallery({ albumCovers }: AlbumCoverGalleryProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Function to scroll the container
-  const scrollRecordBin = (direction: 'left' | 'right') => {
+  // Optimized scroll function with momentum
+  const scrollRecordBin = useCallback((direction: 'left' | 'right') => {
     if (!scrollContainerRef.current) return;
     
     const container = scrollContainerRef.current;
-    const scrollAmount = 300; // Pixels to scroll
+    const scrollAmount = Math.min(300, container.clientWidth * 0.6); // Responsive scroll amount
     
     if (direction === 'left') {
       container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
     } else {
       container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
-  };
+  }, []);
+
+  // Optimized hover handler with debouncing
+  const handleHover = useCallback((index: number | null) => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    
+    if (index === null) {
+      // Add slight delay when leaving to prevent flickering
+      hoverTimeoutRef.current = setTimeout(() => {
+        setHoveredIndex(null);
+      }, 50);
+    } else {
+      setHoveredIndex(index);
+    }
+  }, []);
 
   return (
     <div className="w-full my-6 md:my-10">
@@ -57,7 +74,7 @@ export default function AlbumCoverGallery({ albumCovers }: AlbumCoverGalleryProp
                 index={index} 
                 total={albumCovers.length} 
                 hoveredIndex={hoveredIndex}
-                setHoveredIndex={setHoveredIndex}
+                onHover={handleHover}
               />
             ))}
           </div>
@@ -72,61 +89,102 @@ interface AlbumCoverProps {
   index: number;
   total: number;
   hoveredIndex: number | null;
-  setHoveredIndex: (idx: number | null) => void;
+  onHover: (index: number | null) => void;
 }
 
-function AlbumCover({ imageUrl, index, total, hoveredIndex, setHoveredIndex }: AlbumCoverProps) {
-  // Calculate position for record bin browsing style
-  let transform = `rotateY(75deg) translateZ(0)`;
-  let zIndex = total - index;
-  let boxShadow = '0 5px 15px rgba(0,0,0,0.3)';
-  let pop = false;
-  let edgeOn = false;
+function AlbumCover({ imageUrl, index, total, hoveredIndex, onHover }: AlbumCoverProps) {
+  // Memoized transform calculations for better performance
+  const transformData = useMemo(() => {
+    let transform = `rotateY(75deg) translateZ(0)`;
+    let zIndex = total - index;
+    let boxShadow = '0 5px 15px rgba(0,0,0,0.3)';
+    let pop = false;
+    let edgeOn = false;
+    let brightness = 0.8;
+    let scale = 1;
 
-  if (hoveredIndex !== null) {
-    const distance = Math.abs(index - hoveredIndex);
-    if (index === hoveredIndex) {
-      transform = `rotateY(0deg) translateZ(60px) scale(1.12)`;
-      zIndex = 1000;
-      boxShadow = '0 8px 32px rgba(80,80,160,0.25)';
-      pop = true;
-    } else if (distance === 1) {
-      const angle = index < hoveredIndex ? 35 : -35;
-      transform = `rotateY(${angle}deg) translateZ(20px) scale(1.04)`;
-      zIndex = 999;
-      boxShadow = '0 4px 16px rgba(80,80,160,0.12)';
-      edgeOn = Math.abs(angle) > 30;
+    if (hoveredIndex !== null) {
+      const distance = Math.abs(index - hoveredIndex);
+      
+      if (index === hoveredIndex) {
+        // Main hovered album - fully face forward with enhanced effects
+        transform = `rotateY(0deg) translateZ(80px) scale(1.15)`;
+        zIndex = 1000;
+        boxShadow = '0 12px 40px rgba(80,80,160,0.35), 0 4px 12px rgba(0,0,0,0.15)';
+        pop = true;
+        brightness = 1.1;
+        scale = 1.15;
+      } else if (distance === 1) {
+        // Adjacent albums - slight angle with smooth transition
+        const angle = index < hoveredIndex ? 25 : -25;
+        const translateZ = 30;
+        transform = `rotateY(${angle}deg) translateZ(${translateZ}px) scale(1.06)`;
+        zIndex = 999 - distance;
+        boxShadow = '0 6px 20px rgba(80,80,160,0.18), 0 2px 8px rgba(0,0,0,0.12)';
+        brightness = 0.95;
+        scale = 1.06;
+        edgeOn = Math.abs(angle) > 20;
+      } else if (distance === 2) {
+        // Second-level neighbors - more angled
+        const angle = index < hoveredIndex ? 50 : -50;
+        const translateZ = 10;
+        transform = `rotateY(${angle}deg) translateZ(${translateZ}px) scale(1.02)`;
+        zIndex = 999 - distance;
+        boxShadow = '0 4px 12px rgba(80,80,160,0.12), 0 1px 4px rgba(0,0,0,0.08)';
+        brightness = 0.85;
+        scale = 1.02;
+        edgeOn = Math.abs(angle) > 40;
+      } else {
+        // Distant albums - heavily angled and dimmed
+        const angle = index < hoveredIndex ? 78 : -78;
+        transform = `rotateY(${angle}deg) translateZ(0) scale(0.96)`;
+        zIndex = total - distance;
+        boxShadow = '0 2px 6px rgba(0,0,0,0.08)';
+        brightness = 0.7;
+        scale = 0.96;
+        edgeOn = true;
+      }
     } else {
-      const angle = index < hoveredIndex ? 75 : -75;
-      transform = `rotateY(${angle}deg) translateZ(0) scale(0.98)`;
-      zIndex = total - distance;
-      boxShadow = '0 2px 8px rgba(0,0,0,0.10)';
-      edgeOn = Math.abs(angle) > 60;
+      edgeOn = true;
+      brightness = 0.8;
     }
-  } else {
-    edgeOn = true;
-  }
+
+    return { transform, zIndex, boxShadow, pop, edgeOn, brightness, scale };
+  }, [hoveredIndex, index, total]);
 
   const coverClass = [
     styles.albumCover,
     styles.transform3d,
-    pop ? styles.pop : '',
-    edgeOn ? styles.edgeOn : ''
+    transformData.pop ? styles.pop : '',
+    transformData.edgeOn ? styles.edgeOn : ''
   ].join(' ');
+
+  // Optimized event handlers
+  const handleMouseEnter = useCallback(() => {
+    onHover(index);
+  }, [index, onHover]);
+
+  const handleMouseLeave = useCallback(() => {
+    onHover(null);
+  }, [onHover]);
 
   return (
     <div 
       className={styles.albumSlot}
       style={{
         left: `${index * 70}px`,
-        zIndex: zIndex as number
+        zIndex: transformData.zIndex
       }}
     >
       <div 
         className={coverClass}
-        style={{ transform, boxShadow }}
-        onMouseEnter={() => setHoveredIndex(index)}
-        onMouseLeave={() => setHoveredIndex(null)}
+        style={{ 
+          transform: transformData.transform, 
+          boxShadow: transformData.boxShadow,
+          filter: `brightness(${transformData.brightness})`
+        }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         <div className={styles.albumFace}>
           <Image 
@@ -135,8 +193,11 @@ function AlbumCover({ imageUrl, index, total, hoveredIndex, setHoveredIndex }: A
             width={300}
             height={300}
             className="object-cover w-full h-full rounded-xl"
+            loading="lazy"
+            sizes="(max-width: 768px) 140px, 180px"
           />
           <div className={styles.vinylReflection} />
+          <div className={styles.vinylGlow} />
         </div>
         {/* Album spine */}
         <div className={styles.albumSpine}></div>

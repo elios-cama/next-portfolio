@@ -1,10 +1,12 @@
 /* 3D transformation styles */
 .perspective {
-  perspective: 1000px;
+  perspective: 1200px;
+  perspective-origin: center center;
 }
 
 .transform3d {
   transform-style: preserve-3d;
+  will-change: transform;
 }
 
 /* Container for the album gallery */
@@ -43,7 +45,8 @@
   justify-content: center;
   cursor: pointer;
   z-index: 20;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, box-shadow;
 }
 
 @media (min-width: 768px) {
@@ -57,13 +60,15 @@
 .navButton:hover {
   background-color: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-50%) scale(1.05);
 }
 
 /* Record bin - the scrollable container */
 .recordBin {
   position: absolute;
   inset: 0;
-  perspective: 1000px;
+  perspective: 1200px;
+  perspective-origin: center center;
   overflow-x: auto;
   overflow-y: hidden;
   scrollbar-width: none; /* Hide scrollbar for Firefox */
@@ -107,6 +112,7 @@
   width: 140px;
   height: 140px;
   transform-style: preserve-3d;
+  will-change: z-index;
 }
 
 @media (min-width: 768px) {
@@ -122,9 +128,15 @@
   width: 140px;
   height: 140px;
   cursor: pointer;
-  transform-origin: center;
+  transform-origin: center center;
   transform-style: preserve-3d;
-  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s cubic-bezier(0.4,0,0.2,1);
+  transition: 
+    transform 0.4s cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, box-shadow, filter;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 @media (min-width: 768px) {
@@ -134,10 +146,18 @@
   }
 }
 
+/* Optimized hover states */
+.albumCover:hover {
+  transition: 
+    transform 0.25s cubic-bezier(0.23, 1, 0.32, 1),
+    box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+    filter 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 /* Add a class for edge-on albums */
 .albumCover.edgeOn .albumSpine {
   opacity: 0.15;
-  transition: opacity 0.3s;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .albumCover.pop {
@@ -154,7 +174,10 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   transform-style: preserve-3d;
   transform: translateZ(1px); /* Ensure it's positioned correctly in 3D space */
-  transition: box-shadow 0.3s cubic-bezier(0.4,0,0.2,1);
+  transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: box-shadow;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .albumCover.pop .albumFace {
@@ -168,11 +191,12 @@
   left: 0;
   width: 6px;
   height: 100%;
-  background-color: #333;
+  background: linear-gradient(to right, #2a2a2a, #444, #2a2a2a);
   transform: rotateY(90deg) translateZ(70px);
   transform-origin: left;
   opacity: 0.7;
-  transition: opacity 0.3s;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity;
 }
 
 @media (min-width: 768px) {
@@ -182,7 +206,7 @@
   }
 }
 
-/* Reflection effect on album covers */
+/* Enhanced reflection effect on album covers */
 .vinylReflection {
   position: absolute;
   top: 0;
@@ -191,15 +215,65 @@
   bottom: 0;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(255, 255, 255, 0) 50%,
-    rgba(255, 255, 255, 0.1) 100%
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0) 70%,
+    rgba(255, 255, 255, 0.2) 100%
   );
   border-radius: 12px;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  will-change: opacity;
 }
 
 .albumCover:hover .vinylReflection {
   opacity: 1;
+}
+
+/* New glow effect for enhanced visual appeal */
+.vinylGlow {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(
+    45deg,
+    rgba(80, 80, 160, 0.3),
+    rgba(120, 120, 200, 0.2),
+    rgba(80, 80, 160, 0.3)
+  );
+  border-radius: 14px;
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  z-index: -1;
+  will-change: opacity;
+  filter: blur(4px);
+}
+
+.albumCover.pop .vinylGlow {
+  opacity: 0.6;
+}
+
+/* Performance optimizations */
+@media (prefers-reduced-motion: reduce) {
+  .albumCover,
+  .albumFace,
+  .vinylReflection,
+  .vinylGlow,
+  .albumSpine,
+  .navButton {
+    transition: none;
+  }
+}
+
+/* GPU acceleration hints */
+.albumCover,
+.albumFace,
+.vinylReflection,
+.vinylGlow {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 } 
